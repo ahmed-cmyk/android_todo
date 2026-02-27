@@ -75,6 +75,18 @@ class TodoViewModel(
         }
     }
 
+    fun toggleCompleted(id: Int, completed: Boolean) {
+        viewModelScope.launch {
+            repository.toggleCompleted(id, completed)
+        }
+    }
+
+    fun updateTitle(id: Int, title: String) {
+        viewModelScope.launch {
+            repository.updateTitle(id, title);
+        }
+    }
+
     fun deleteTodo(id: Int) {
         viewModelScope.launch {
             repository.deleteTodo(id)
