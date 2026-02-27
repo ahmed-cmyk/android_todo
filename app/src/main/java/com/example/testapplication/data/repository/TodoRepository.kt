@@ -22,7 +22,7 @@ class TodoRepository(private val todoDao: TodoDao) {
         todoDao.updateTitle(id, title)
     }
 
-    suspend fun setCompletedAt(id: Int, completed: Boolean) {
+    suspend fun toggleCompleted(id: Int, completed: Boolean) {
         var completedAt: Long? = null;
         if (completed) {
             completedAt = System.currentTimeMillis()
