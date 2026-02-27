@@ -27,13 +27,13 @@ import com.example.todoApplication.ui.viewModel.TodoViewModel
 @Composable
 fun TodoScreen(vm: TodoViewModel = viewModel()) {
     val state by vm.uiState.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
+    var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { Text("Todo App", modifier = Modifier.padding(16.dp)) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { showDialog = true },
+                onClick = { showAddDialog = true },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(
@@ -59,12 +59,12 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
             )
         }
 
-        if (showDialog) {
+        if (showAddDialog) {
             AddTodoDialog(
                 onAdd = { title ->
                     vm.addTodo(title)
                 },
-                onDismiss = { showDialog = false }
+                onDismiss = { showAddDialog = false }
             )
         }
     }
