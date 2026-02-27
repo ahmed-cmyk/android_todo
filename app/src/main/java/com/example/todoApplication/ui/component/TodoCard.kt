@@ -1,4 +1,4 @@
-package com.example.testapplication.ui.component
+package com.example.todoApplication.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.testapplication.R
-import com.example.testapplication.data.entity.Todo
+import com.example.todoApplication.R
+import com.example.todoApplication.data.entity.Todo
 
 @Composable
 fun TodoCard(

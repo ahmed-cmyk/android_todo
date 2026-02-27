@@ -1,11 +1,11 @@
-package com.example.testapplication.data
+package com.example.todoApplication.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.testapplication.data.dao.TodoDao
-import com.example.testapplication.data.entity.Todo
+import com.example.todoApplication.data.dao.TodoDao
+import com.example.todoApplication.data.entity.Todo
 import kotlin.concurrent.Volatile
 
 @Database(

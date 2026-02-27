@@ -1,4 +1,4 @@
-package com.example.testapplication
+package com.example.todoApplication
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,12 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.testapplication.data.AppDatabase
-import com.example.testapplication.data.repository.TodoRepository
-import com.example.testapplication.ui.screen.TodoScreen
-import com.example.testapplication.ui.theme.TestApplicationTheme
-import com.example.testapplication.ui.viewModel.TodoViewModel
-import com.example.testapplication.ui.viewModel.TodoViewModelFactory
+import com.example.todoApplication.data.AppDatabase
+import com.example.todoApplication.data.repository.TodoRepository
+import com.example.todoApplication.ui.screen.TodoScreen
+import com.example.todoApplication.ui.theme.TodoApplicationTheme
+import com.example.todoApplication.ui.viewModel.TodoViewModel
+import com.example.todoApplication.ui.viewModel.TodoViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val vm: TodoViewModel = viewModel(factory = factory)
 
-            TestApplicationTheme {
+            TodoApplicationTheme {
                 TodoScreen(vm)
             }
         }
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TestApplicationTheme {
+    TodoApplicationTheme {
         TodoScreen()
     }
 }

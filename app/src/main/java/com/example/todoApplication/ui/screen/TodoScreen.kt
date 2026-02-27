@@ -1,4 +1,4 @@
-package com.example.testapplication.ui.screen
+package com.example.todoApplication.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,9 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.testapplication.ui.component.AddTodoInput
-import com.example.testapplication.ui.component.TodoList
-import com.example.testapplication.ui.viewModel.TodoViewModel
+import com.example.todoApplication.ui.component.AddTodoInput
+import com.example.todoApplication.ui.component.TodoList
+import com.example.todoApplication.ui.viewModel.TodoViewModel
 
 @Composable
 fun TodoScreen(vm: TodoViewModel = viewModel()) {

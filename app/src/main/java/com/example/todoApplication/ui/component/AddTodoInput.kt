@@ -1,4 +1,4 @@
-package com.example.testapplication.ui.component
+package com.example.todoApplication.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

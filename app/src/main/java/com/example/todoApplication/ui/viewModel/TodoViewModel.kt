@@ -1,10 +1,10 @@
-package com.example.testapplication.ui.viewModel
+package com.example.todoApplication.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.testapplication.data.entity.Todo
-import com.example.testapplication.data.repository.TodoRepository
+import com.example.todoApplication.data.entity.Todo
+import com.example.todoApplication.data.repository.TodoRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

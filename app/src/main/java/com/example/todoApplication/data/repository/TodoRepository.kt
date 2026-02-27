@@ -1,7 +1,7 @@
-package com.example.testapplication.data.repository
+package com.example.todoApplication.data.repository
 
-import com.example.testapplication.data.dao.TodoDao
-import com.example.testapplication.data.entity.Todo
+import com.example.todoApplication.data.dao.TodoDao
+import com.example.todoApplication.data.entity.Todo
 import kotlinx.coroutines.flow.Flow
 
 class TodoRepository(private val todoDao: TodoDao) {

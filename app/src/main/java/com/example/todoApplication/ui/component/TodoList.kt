@@ -1,9 +1,9 @@
-package com.example.testapplication.ui.component
+package com.example.todoApplication.ui.component
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import com.example.testapplication.data.entity.Todo
+import com.example.todoApplication.data.entity.Todo
 
 @Composable
 fun TodoList(

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testapplication"
+    namespace = "com.example.todoApplication"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.testapplication"
+        applicationId = "com.example.todoApplication"
         minSdk = 33
         targetSdk = 36
         versionCode = 1
