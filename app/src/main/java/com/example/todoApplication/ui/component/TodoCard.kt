@@ -40,6 +40,7 @@ fun TodoCard(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = todo.title)
+            Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = { onDeleteAction(todo.id) }) {
                 Icon(
                     painter = painterResource(R.drawable.delete),
