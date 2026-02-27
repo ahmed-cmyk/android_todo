@@ -19,7 +19,8 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
     val state by vm.uiState.collectAsState()
 
     Scaffold(
-        topBar = { Text("Todo App", modifier = Modifier.padding(16.dp)) }
+        topBar = { Text("Todo App", modifier = Modifier.padding(16.dp)) },
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             AddTodoInput(
