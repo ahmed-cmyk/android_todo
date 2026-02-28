@@ -50,8 +50,8 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
         Column(modifier = Modifier.padding(innerPadding)) {
             TodoList(
                 todos = state.todos,
-                onCheckAction = { id, checked ->
-                    vm.toggleCompleted(id, checked)
+                onCheckAction = { id, completed ->
+                    vm.toggleCompleted(id, completed)
                 },
                 onDeleteAction = { id ->
                     vm.deleteTodo(id)
