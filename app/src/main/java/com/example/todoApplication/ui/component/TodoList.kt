@@ -16,12 +16,16 @@ fun TodoList(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(todos) { todo ->
-            TodoCard(
-                todo = todo,
-                onCheckAction = onCheckAction,
-                onDeleteAction = onDeleteAction
-            )
+        items(todos, key = { it.id }) { todo ->
+            SwipeToDeleteTodo(
+                item = todo.id,
+                onDelete = onDeleteAction
+            ) {
+                TodoCard(
+                    todo = todo,
+                    onCheckAction = onCheckAction
+                )
+            }
         }
     }
 }
