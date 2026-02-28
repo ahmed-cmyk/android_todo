@@ -16,10 +16,19 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+
+enum class TodoFilter(val label: String) {
+    ALL("All"),
+    COMPLETED("Completed"),
+    INCOMPLETE("Incomplete")
+}
 
 data class TodoUiState(
     val todos: List<Todo> = emptyList(),
     val showCompleted: Boolean = false,
+    val selectedFilter: TodoFilter = TodoFilter.ALL,
+    val currentDate: LocalDate = LocalDate.now(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -28,26 +37,37 @@ class TodoViewModel(
     private val repository: TodoRepository
 ): ViewModel() {
 
-    private val showCompleted = MutableStateFlow(false)
+    private val _filter = MutableStateFlow(TodoFilter.ALL)
+    val selectedFilter: StateFlow<TodoFilter> = _filter
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<TodoUiState> =
-        showCompleted
-            .flatMapLatest { completed ->
+        _filter
+            .flatMapLatest { selectedFilter ->
                 repository
-                    .getByStatus(completed)
+                    .allTodos
                     .map { todos ->
+
+                        val filteredTodos = when (selectedFilter) {
+                            TodoFilter.ALL -> todos
+                            TodoFilter.COMPLETED ->
+                                todos.filter { it.completedAt != null }
+                            TodoFilter.INCOMPLETE ->
+                                todos.filter { it.completedAt == null }
+                        }
+
                         TodoUiState(
-                            todos = todos,
-                            showCompleted = completed,
+                            todos = filteredTodos,
+                            selectedFilter = selectedFilter,
+                            currentDate = LocalDate.now(),
                             isLoading = false
                         )
+
                     }
                     .onStart {
                         emit(
                             TodoUiState(
                                 isLoading = true,
-                                showCompleted = completed
                             )
                         )
                     }
@@ -65,8 +85,8 @@ class TodoViewModel(
                 initialValue = TodoUiState(isLoading = true)
             )
 
-    fun toggleCompletedFilter() {
-        showCompleted.update { !it }
+    fun setFilter(newFilter: TodoFilter) {
+        _filter.value = newFilter
     }
 
     fun addTodo(title: String) {

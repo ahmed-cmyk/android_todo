@@ -1,8 +1,7 @@
 package com.example.todoApplication.ui.component
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -11,57 +10,37 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
+import com.example.todoApplication.ui.viewModel.TodoFilter
 
 @Composable
-fun TodoFilterHeader(toggleFilter: () -> Unit) {
-    var selectedIndex by remember { mutableIntStateOf(0) }
-    val options = listOf("pending", "completed")
-    val currentDate: LocalDate = LocalDate.now()
-
+fun TodoFilterHeader(
+    selectedFilter: TodoFilter,
+    onFilterSelected: (TodoFilter) -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth()
             .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        Column {
-            val dayOfWeek = currentDate.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-            val dayOfMonth = currentDate.dayOfMonth
-            val month = currentDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-
-            Text(
-                text = "$dayOfWeek, $month $dayOfMonth",
-                style = MaterialTheme.typography.headlineSmall
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
         SingleChoiceSegmentedButtonRow {
-            options.forEachIndexed { index, label ->
+            TodoFilter.entries.forEachIndexed { index, filter ->
                 SegmentedButton(
                     shape = SegmentedButtonDefaults.itemShape(
                         index = index,
-                        count = options.size
+                        count = TodoFilter.entries.size
                     ),
                     onClick = {
-                        // Ensure toggle runs when index actually changes
-                        if (selectedIndex != index) {
-                            selectedIndex = index
-                            toggleFilter()
-                        }
+                        onFilterSelected(filter)
                     },
-                    selected = index == selectedIndex,
-                    label = { Text(label) }
+                    selected = filter == selectedFilter,
+                    label = { Text(
+                        text = filter.label,
+                        style = MaterialTheme.typography.labelLarge
+                    ) }
                 )
             }
         }
