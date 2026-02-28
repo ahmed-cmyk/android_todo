@@ -26,14 +26,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import java.time.format.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todoApplication.R
 import com.example.todoApplication.ui.component.AddTodoDialog
+import com.example.todoApplication.ui.component.TodoFilterHeader
 import com.example.todoApplication.ui.component.TodoList
 import com.example.todoApplication.ui.viewModel.TodoViewModel
+import java.time.LocalDate
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,31 +77,8 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
 
-            var selectedIndex by remember { mutableIntStateOf(0) }
-            val options = listOf("pending", "completed")
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-
-                SingleChoiceSegmentedButtonRow {
-                    options.forEachIndexed { index, label ->
-                        SegmentedButton(
-                            shape = SegmentedButtonDefaults.itemShape(
-                                index = index,
-                                count = options.size
-                            ),
-                            onClick = {
-                                selectedIndex = index
-                                vm.toggleCompletedFilter()
-                            },
-                            selected = index == selectedIndex,
-                            label = { Text(label) }
-                        )
-                    }
-                }
+            TodoFilterHeader {
+                vm.toggleCompletedFilter()
             }
 
             TodoList(
