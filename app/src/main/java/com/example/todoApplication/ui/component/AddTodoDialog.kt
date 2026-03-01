@@ -9,6 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.example.todoApplication.R
 
 @Composable
 fun AddTodoDialog(
@@ -19,12 +21,12 @@ fun AddTodoDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Todo") },
+        title = { Text(text = stringResource(id = R.string.add_dialog_title)) },
         text = {
             OutlinedTextField(
                 value = todoText,
                 onValueChange = { todoText = it },
-                label = { Text("Todo title") },
+                label = { Text(text = stringResource(id = R.string.todo_title_placeholder)) },
                 singleLine = true
             )
         },
@@ -38,12 +40,12 @@ fun AddTodoDialog(
                     }
                 }
             ) {
-                Text("Add")
+                Text(text = stringResource(id = R.string.add_button))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(text = stringResource(id = R.string.cancel_button))
             }
         }
     )
