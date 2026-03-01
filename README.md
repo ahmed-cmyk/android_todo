@@ -20,7 +20,7 @@ A simple, modern Todo application built with Jetpack Compose, Kotlin, and Room, 
 - State Management: MVVM / StateFlow
 - Persistence: Room Database
 - Icons & Drawables: Vector resources
-- Minimum SDK: 26+
+- Minimum SDK: 33+
 
 ## Architecture
 
