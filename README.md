@@ -2,8 +2,6 @@
 
 A simple, modern Todo application built with Jetpack Compose, Kotlin, and Room, demonstrating clean architecture, state management, and adaptive UI design.
 
----
-
 ## Features
 
 - Add, update, delete Todos – Simple CRUD operations with persistent storage using Room.
@@ -15,8 +13,6 @@ A simple, modern Todo application built with Jetpack Compose, Kotlin, and Room, 
 - Date display – Shows current date in a clean, readable format.
 - Unidirectional data flow – Implemented using StateFlow in the ViewModel for predictable UI updates.
 
----
-
 ## Tech Stack
 
 - Language: Kotlin
@@ -25,8 +21,6 @@ A simple, modern Todo application built with Jetpack Compose, Kotlin, and Room, 
 - Persistence: Room Database
 - Icons & Drawables: Vector resources
 - Minimum SDK: 26+
-
----
 
 ## Architecture
 
@@ -42,8 +36,6 @@ This approach ensures:
 - Single source of truth
 - Easy testing and maintenance
 
----
-
 ## Installation
 
 1.	Clone the repository:
@@ -55,8 +47,6 @@ git clone https://github.com/ahmed-cmyk/android_todo.git
 2. Open in Android Studio (Electric Eel or newer recommended).
 3. ld and run on a device or emulator.
 
----
-
 ## Future Improvements
 
 - Push notifications for upcoming tasks (FCM integration).
@@ -64,8 +54,6 @@ git clone https://github.com/ahmed-cmyk/android_todo.git
 - Adaptive layouts for tablets and foldables using window size classes.
 - KMM (Kotlin Multiplatform) support for iOS version.
 - Enhanced UI animations and Material 3 theming.
-
----
 
 ## License
 
