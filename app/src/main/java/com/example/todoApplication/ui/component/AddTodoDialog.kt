@@ -26,7 +26,8 @@ fun AddTodoDialog(
             OutlinedTextField(
                 value = todoText,
                 onValueChange = { todoText = it },
-                label = { Text(text = stringResource(id = R.string.todo_title_placeholder)) },
+                label = { Text(text = stringResource(id = R.string.todo_title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.todo_title_placeholder)) },
                 singleLine = true
             )
         },
