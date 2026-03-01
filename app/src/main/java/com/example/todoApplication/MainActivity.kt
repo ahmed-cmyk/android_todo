@@ -41,3 +41,11 @@ fun TodoPreview() {
         TodoScreen()
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun TodoPreviewDark() {
+    TodoApplicationTheme(darkTheme = true) {
+        TodoScreen()
+    }
+}
