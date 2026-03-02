@@ -1,5 +1,6 @@
 package com.example.todoApplication.ui.viewModel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ enum class TodoFilter(val label: String) {
     INCOMPLETE("Incomplete")
 }
 
+@Immutable
 data class TodoUiState(
     val todos: List<Todo> = emptyList(),
     val showCompleted: Boolean = false,
