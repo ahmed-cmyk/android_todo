@@ -8,10 +8,6 @@ class TodoRepository(private val todoDao: TodoDao) {
 
     val allTodos: Flow<List<Todo>> = todoDao.getAll()
 
-    fun getByStatus(status: Boolean): Flow<List<Todo>> {
-        return todoDao.getByStatus(status)
-    }
-
     suspend fun createTodo(title: String): Long {
         return todoDao.create(Todo(
             title = title
