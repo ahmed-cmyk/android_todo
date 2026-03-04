@@ -7,8 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.todoApplication.data.AppDatabase
-import com.example.todoApplication.data.repository.TodoRepository
 import com.example.todoApplication.ui.screen.TodoScreen
 import com.example.todoApplication.ui.theme.TodoApplicationTheme
 import com.example.todoApplication.ui.viewModel.TodoViewModel
@@ -19,9 +17,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // Manual DI chain
-        val database = AppDatabase.getInstance(this)
-        val repository = TodoRepository(database.todoDao())
-        val factory = TodoViewModelFactory(repository)
+        val app = application as TodoApp
+        val factory = TodoViewModelFactory(app.repository)
 
         enableEdgeToEdge()
         setContent {
