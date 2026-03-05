@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.todoApplication.data.entity.Todo
 import com.example.todoApplication.data.repository.TodoRepository
+import com.example.todoApplication.datastore.Prefs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -36,15 +36,15 @@ data class TodoUiState(
 )
 
 class TodoViewModel(
-    private val repository: TodoRepository
+    private val repository: TodoRepository,
+    private val prefs: Prefs
 ): ViewModel() {
 
-    private val _filter = MutableStateFlow(TodoFilter.ALL)
-    val selectedFilter: StateFlow<TodoFilter> = _filter
+    val filter: Flow<TodoFilter> = prefs.selectedFilter()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<TodoUiState> =
-        _filter
+        prefs.selectedFilter()
             .flatMapLatest { selectedFilter ->
                 repository
                     .allTodos
@@ -88,7 +88,9 @@ class TodoViewModel(
             )
 
     fun setFilter(newFilter: TodoFilter) {
-        _filter.value = newFilter
+        viewModelScope.launch {
+            prefs.setFilter(newFilter)
+        }
     }
 
     fun addTodo(title: String) {
@@ -105,7 +107,7 @@ class TodoViewModel(
 
     fun updateTitle(id: Int, title: String) {
         viewModelScope.launch {
-            repository.updateTitle(id, title);
+            repository.updateTitle(id, title)
         }
     }
 
@@ -116,11 +118,14 @@ class TodoViewModel(
     }
 }
 
-class TodoViewModelFactory(private val repository: TodoRepository): ViewModelProvider.Factory {
+class TodoViewModelFactory(
+    private val repository: TodoRepository,
+    private val prefs: Prefs
+): ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
-            return TodoViewModel(repository) as T
+            return TodoViewModel(repository, prefs) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

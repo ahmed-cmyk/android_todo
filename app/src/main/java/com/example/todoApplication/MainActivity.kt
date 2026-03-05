@@ -18,7 +18,10 @@ class MainActivity : ComponentActivity() {
 
         // Manual DI chain
         val app = application as TodoApp
-        val factory = TodoViewModelFactory(app.repository)
+        val factory = TodoViewModelFactory(
+            app.repository,
+            app.prefs
+        )
 
         enableEdgeToEdge()
         setContent {
