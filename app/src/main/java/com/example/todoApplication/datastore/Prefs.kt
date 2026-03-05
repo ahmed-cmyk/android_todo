@@ -3,7 +3,9 @@ package com.example.todoApplication.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class Prefs(private val context: Context) {
 
@@ -11,13 +13,15 @@ class Prefs(private val context: Context) {
         val SELECTED_FILTER = intPreferencesKey("selected_filter")
     }
 
-    suspend fun setFilter(value: Int) {
-        context.datastore.edit { prefs ->
-            prefs[Keys.SELECTED_FILTER] = value
-        }
+    fun selectedFilter(): Flow<Int> = context.datastore.data.map { prefs ->
+        prefs[Keys.SELECTED_FILTER] ?: 0
     }
 
-    suspend fun getFilter(): Int? {
-        return context.datastore.data.first()[Keys.SELECTED_FILTER]
+    suspend fun setFilter(value: Int) {
+        context.datastore.updateData {
+            it.toMutablePreferences().also { prefs ->
+                prefs[Keys.SELECTED_FILTER] = value
+            }
+        }
     }
 }
