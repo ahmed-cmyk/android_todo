@@ -8,17 +8,18 @@ import com.example.todoApplication.data.entity.Todo
 import com.example.todoApplication.data.repository.TodoRepository
 import com.example.todoApplication.datastore.Prefs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import kotlin.time.Duration.Companion.hours
 
 enum class TodoFilter(val label: String) {
     ALL("All"),
@@ -41,14 +42,28 @@ class TodoViewModel(
     private val prefs: Prefs
 ): ViewModel() {
 
+    val currentDateFlow = flow {
+        var lastDate = LocalDate.now()
+        emit(lastDate) // emit immediately on subscription
+
+        while (true) {
+            delay(1.hours)
+            val today = LocalDate.now()
+            if (today != lastDate) {
+                lastDate = today
+                emit(today)
+            }
+        }
+    }
     val filter: Flow<TodoFilter> = prefs.selectedFilter()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<TodoUiState> =
         combine(
             repository.allTodos,
-            prefs.selectedFilter()
-        ) { todos, selectedFilter ->
+            prefs.selectedFilter(),
+            currentDateFlow
+        ) { todos, selectedFilter, currentDate ->
 
             val filteredTodos = when (selectedFilter) {
                 TodoFilter.ALL -> todos
@@ -62,7 +77,7 @@ class TodoViewModel(
             TodoUiState(
                 todos = filteredTodos,
                 selectedFilter = selectedFilter,
-                currentDate = LocalDate.now(),
+                currentDate = currentDate,
                 isLoading = false
             )
         }
