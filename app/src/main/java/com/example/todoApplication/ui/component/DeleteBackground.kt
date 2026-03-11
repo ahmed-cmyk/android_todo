@@ -29,9 +29,12 @@ fun DeleteBackground(
             MaterialTheme.colorScheme.surfaceVariant
         }
 
+    val shape = RoundedCornerShape(16.dp)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .clip(shape)
             .background(color)
             .padding(16.dp),
         contentAlignment = Alignment.CenterEnd

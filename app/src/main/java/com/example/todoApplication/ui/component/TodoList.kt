@@ -14,7 +14,7 @@ fun TodoList(
     onDeleteAction: (Int) -> Unit
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(todos, key = { it.id }) { todo ->
             SwipeToDeleteTodo(
