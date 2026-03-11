@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -44,48 +45,46 @@ class TodoViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<TodoUiState> =
-        prefs.selectedFilter()
-            .flatMapLatest { selectedFilter ->
-                repository
-                    .allTodos
-                    .map { todos ->
+        combine(
+            repository.allTodos,
+            prefs.selectedFilter()
+        ) { todos, selectedFilter ->
 
-                        val filteredTodos = when (selectedFilter) {
-                            TodoFilter.ALL -> todos
-                            TodoFilter.COMPLETED ->
-                                todos.filter { it.completedAt != null }
-                            TodoFilter.INCOMPLETE ->
-                                todos.filter { it.completedAt == null }
-                        }
+            val filteredTodos = when (selectedFilter) {
+                TodoFilter.ALL -> todos
+                TodoFilter.COMPLETED ->
+                    todos.filter { it.completedAt != null }
 
-                        TodoUiState(
-                            todos = filteredTodos,
-                            selectedFilter = selectedFilter,
-                            currentDate = LocalDate.now(),
-                            isLoading = false
-                        )
-
-                    }
-                    .onStart {
-                        emit(
-                            TodoUiState(
-                                isLoading = true,
-                            )
-                        )
-                    }
+                TodoFilter.INCOMPLETE ->
+                    todos.filter { it.completedAt == null }
             }
-            .catch { error ->
-                emit(
-                    TodoUiState(
-                        error = error.message
-                    )
-                )
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = TodoUiState(isLoading = true)
+
+            TodoUiState(
+                todos = filteredTodos,
+                selectedFilter = selectedFilter,
+                currentDate = LocalDate.now(),
+                isLoading = false
             )
+        }
+        .onStart {
+            emit(
+                TodoUiState(
+                    isLoading = true
+                )
+            )
+        }
+        .catch { error ->
+            emit(
+                TodoUiState(
+                    error = error.message
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = TodoUiState(isLoading = true)
+        )
 
     fun setFilter(newFilter: TodoFilter) {
         viewModelScope.launch {
