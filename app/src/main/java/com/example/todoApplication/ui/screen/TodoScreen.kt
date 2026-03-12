@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ import com.example.todoApplication.ui.viewModel.TodoViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoScreen(vm: TodoViewModel = viewModel()) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state by vm.uiState.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
 
@@ -46,7 +49,10 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
-                modifier = Modifier.statusBarsPadding()
+                scrollBehavior = scrollBehavior,
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         },
         floatingActionButton = {
@@ -62,10 +68,14 @@ fun TodoScreen(vm: TodoViewModel = viewModel()) {
                 )
             }
         },
-        floatingActionButtonPosition = FabPosition.End,
-        modifier = Modifier.padding(16.dp)
+        floatingActionButtonPosition = FabPosition.End
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
+        ) {
 
             TodoFilterHeader(
                 selectedFilter = state.selectedFilter,
